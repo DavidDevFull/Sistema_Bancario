@@ -108,11 +108,18 @@ def max_sake():
     while True:
         try:    
             global account_global  # Permite modificar a variável global
+            global value_of_money_in_species  # Permite modificar a variável global
+            index = 0
+            array_mesage_max_deposity = ['Você tem direito a mais 2 depósitos diários',
+                                        'Você tem direito a mais 1 depósitos diários',
+                                        'Você atingiu o maximo de depósito diários, volte amanhã para fazer mais depósitos'
+                                        ]
+
             account_global = float(account_global)
             
             account_global = sum(extract_deposity)
 
-            print(f'Valor atual da sua conta:{account_global}' )
+            print(f'Valor atual de dinheiro guardado em sua conta é:{account_global}' )
             sake_input = float(input('Digite o valor que deseja sacar da sua conta:'))
 
             #Verifica se o númeruo é positivo.
@@ -131,6 +138,27 @@ def max_sake():
                 {' Erro no depósito '.center(50, '=')}
                 ''')
                 break
+            #Valor da conta menos o valor digitado que deseja ser retirado.
+            account_global - sake_input
+            #value_of_money_in_species += sake_input
+            extract_sakes.append(sake_input)
+
+
+
+            for index in range(min(3 , len(extract_sakes))):
+                print(f'''
+                {' Procedimento concluido '.center(50, '=')}
+                Procedimento de saque foi bem sucedido, dinheiro retirado da sua conta foi no valor de R${sake_input}, o valor que ficará na sua conta é de R${account_global}
+                {array_mesage_max_deposity[index]}
+                {' Procedimento concluido '.center(50, '=')}
+                ''')
+            while len(extract_sakes) > 3:
+                extract_sakes.pop()
+            print(extract_sakes)
+            print(account_global)
+
+ 
+
         except ValueError:
             # Caso seja digitado letras ou caracteres inválidos
             print(f'''
@@ -138,14 +166,6 @@ def max_sake():
             Não é possivel inserir letras. Digite um número válido ou '04' para voltar ao menu principal.
             {' Erro no depósito '.center(50, '=')}
             ''') 
-        
-
-
-
-   #            array_mesage_max_deposity = ['Depósito efetuado com sucesso, você tem direito a mais 2 depósitos diários',
-      #                                      'Depósito efetuado com sucesso, você tem direito a mais 1 depósitos diários',
-     #                                       'Você atingiu o maximo de depósito diários, volte amanhã para fazer mais depósitos']
-            #    index = 0
 
 
 
