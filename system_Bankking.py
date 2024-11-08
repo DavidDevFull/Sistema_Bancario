@@ -16,9 +16,7 @@ value_of_money_in_species = float(input('>>>Digite o valor que sua conta irá re
 
 print(f'O valor da sua conta bancária é de:R${value_of_money_in_species:.2f}')
 
-
-
-
+#>>>>>>>>>>FUNÇÃO MENU PRINCIPAL, PRIIMEIRO MENU MOSTRADO<<<<<<<<<<<
 def main_menu():
     print(f'''
     {' Menu Principal '.center(50, '=')}
@@ -28,27 +26,27 @@ def main_menu():
     {' Menu Principal '.center(50, '=')}
     ''')
 
-    acesses = int(input('O que deseja acessar? ')) 
-
+    acesses = int(input('O que deseja acessar? ')) #    Transforma o valor do input de string para int.
 
     #-------------------------------------------------------
-        #Chamar função para depositar.
+    
     if acesses == 1:
-        global_function_deposity() 
+        global_function_deposity()  # Chamar a função para depositar.
 
     elif acesses == 2:
-        max_sake()
-        # Chamar a função para sacar.
+        max_sake() # Chamar a função para sacar.
 
     elif acesses == 3:
-        print('Acesso 3')
-        # Chamar a função para exibir o extrato bancário.
+        extract_account() # Chamar a função para exibir o extrato bancário.
 
     else:
-        print("Opção inválida, por favor tente novamente.")
-        main_menu()  # Chama novamente o menu principal.
+        try:
+            print("Opção inválida, por favor tente novamente.")
+            main_menu()  # Chama novamente o menu principal.
+        except:
+            print("Opção inválida, por favor tente novamente.")
+            main_menu()  # Chama novamente o menu principal.
 
-#>>>>>>>>>>FUNÇÕES REFERENTE A SEÇÃO DEPOSITAR<<<<<<<<<<<
 #>>>>>>>>>>FUNCIONALIDADE DE DEPOSITO DA CONTA<<<<<<<<<<<
 def deposity_user():
     global value_of_money_in_species  # Permite modificar a variável global
@@ -59,20 +57,12 @@ def deposity_user():
             account_input = input('>>> Digite o valor que deseja depositar na sua conta: R$ ')
 
 
-            account_global = float(account_input)
+            account_global = float(account_input) #Deixa a varivel receber ponto(.) flutuante.
 
             # Verifica se o usuário deseja voltar ao menu principal
             if account_input == "04":
                 main_menu() 
                 return  
-            
-            #Verifica se o númeruo é positivo.
-            while account_global < 0:
-                print(f'''
-                 {' Erro no depósito '.center(50, '=')}
-                Por favor, digite um valor positivo ou '04' para voltar ao menu principal..
-                ''')
-                break
 
             #Verifica a se o usuário possui valor em expecie o suficiente para fazer o depósito desejado.
             if account_global > value_of_money_in_species:
@@ -84,19 +74,28 @@ def deposity_user():
                 print(value_of_money_in_species)
                 return deposity_user()
 
+            #Verifica se o númeruo é positivo.
+            while account_global < 0:
+                print(f'''
+                 {' Erro no depósito '.center(50, '=')}
+                Por favor, digite um valor positivo ou '04' para voltar ao menu principal...
+                {' Erro no depósito '.center(50, '=')}
+                ''')
+                return deposity_user()
+
             # Realiza o depósito e atualiza o saldo e extrato
-            
-            value_of_money_in_species -= account_global
-            extract_deposity.append(account_global)
+            value_of_money_in_species -= account_global #Valor do dinheiro em especie vai ser subtraido pelo valor ataual da conta.
+            extract_deposity.append(account_global) #Adicionando um novo valor no array extract.
             print(f'''
                 {' Realizado '.center(50, '=')}
                 Depósito realizado com sucesso! Saldo atualizado: R${value_of_money_in_species:.2f}
                 {' Realizado '.center(50, '=')}
                 ''')
             print("Extrato atualizado:", extract_deposity)
-                
+
+        # Caso seja digitado letras ou caracteres inválidos                
         except ValueError:
-            # Caso seja digitado letras ou caracteres inválidos
+
             print(f'''
             {' Erro no depósito '.center(50, '=')}
             Não é possivel inserir letras. Digite um número válido ou '04' para voltar ao menu principal.
@@ -115,50 +114,50 @@ def max_sake():
                                         'Você atingiu o maximo de depósito diários, volte amanhã para fazer mais depósitos'
                                         ]
 
-            account_global = float(account_global)
+            account_global = float(account_global) # 
             
-            account_global = sum(extract_deposity)
+            account_global = sum(extract_deposity) # Soma todos os itens do array extract_deposity e faz com que acconunt_global recea os valores somados.
 
             print(f'Valor atual de dinheiro guardado em sua conta é:{account_global}' )
             sake_input = float(input('Digite o valor que deseja sacar da sua conta:'))
 
-            #Verifica se o númeruo é positivo.
-            while sake_input < 0:
+            extract_sakes.append(sake_input)
+
+            while sake_input < 0: # Verifica se o númeruo é positivo.
+            
                 print(f'''
                  {' Erro no depósito '.center(50, '=')}
                 Por favor, digite um valor positivo ou '04' para voltar ao menu principal..
+                {' Erro no depósito '.center(50, '=')}
                 ''')
-                break
+                return max_sake()
 
-            # Se o valor da conta for maior(>) que 500.
-            while sake_input >= 500:
+            
+            while sake_input > 500: # Se o valor da conta for maior(>) que 500.
                 print(f'''
                 {' Erro no depósito '.center(50, '=')}
                 Por favor digite um valor que seja menor que R$500,00 reais!!!.
                 {' Erro no depósito '.center(50, '=')}
                 ''')
-                break
-            #Valor da conta menos o valor digitado que deseja ser retirado.
-            account_global - sake_input
-            #value_of_money_in_species += sake_input
-            extract_sakes.append(sake_input)
+                return max_sake()
 
-
-
+            #index for menor que o raio, minimo da largura do extract_sakes.
             for index in range(min(3 , len(extract_sakes))):
                 print(f'''
                 {' Procedimento concluido '.center(50, '=')}
                 Procedimento de saque foi bem sucedido, dinheiro retirado da sua conta foi no valor de R${sake_input}, o valor que ficará na sua conta é de R${account_global}
                 {array_mesage_max_deposity[index]}
                 {' Procedimento concluido '.center(50, '=')}
-                ''')
+                ''')#Mensagensirá acompanhar o indice e conforme ele é acresentado.
+
             while len(extract_sakes) > 3:
                 extract_sakes.pop()
+
             print(extract_sakes)
+            print(sake_input)
             print(account_global)
 
- 
-
+        #-------------------------------------------------------
         except ValueError:
             # Caso seja digitado letras ou caracteres inválidos
             print(f'''
@@ -166,8 +165,39 @@ def max_sake():
             Não é possivel inserir letras. Digite um número válido ou '04' para voltar ao menu principal.
             {' Erro no depósito '.center(50, '=')}
             ''') 
+#>>>>>>>>>>EXTRATO DA CONTA E DOS VALORES SACADOS<<<<<<<<<<<
+def extract_account():
+    print(f'''
+    {' Extrato '.center(50, '=')}
+    Digite [1] - Para ver o histórico de depositos.
+    Digite [2] - Para ver o valor retirado da sua conta.
+    Digite [3] - Para voltar para o menu principal.
+    {' Extrato '.center(50, '=')}
+    ''')
 
+    extract_deposity_sake = int(input('Digite um número e faça a escolha de acordo com os números do menu: '))
 
+    if extract_deposity_sake == 1:
+        print('test 1')
+    elif extract_deposity_sake == 2:
+        print('test2')
+    elif extract_deposity_sake == 3:
+        global_function_deposity()
+    else:
+        try:
+            print(f'''
+            {' Erro '.center(50, '=')} 
+            >>>Digite um número relacionado ao menu mostrado<<<
+            {' Erro '.center(50, '=') }
+            ''')
+            extract_account()
+        except:
+            print(f'''
+            {' Erro '.center(50, '=')} 
+            >>>Digite um número relacionado ao menu mostrado<<<
+            {' Erro '.center(50, '=') }
+            ''')
+            extract_account()
 
 #>>>>>>>>>>FUNÇÃO PRINCIPAL QUE ENGLOBA TODAS AS OUTRAS REFERENTE A DEPOSITO<<<<<<<<<<<
 def global_function_deposity():
@@ -177,7 +207,7 @@ def global_function_deposity():
     {' Depósito '.center(50, '=')}
     ''')
     deposity_user()
-# Função de menu principal para referência
-main_menu()
+
+main_menu()# Função menu principal para referência
 
 
