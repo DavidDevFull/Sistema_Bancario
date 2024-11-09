@@ -20,9 +20,11 @@ print(f'O valor da sua conta bancária é de:R${value_of_money_in_species:.2f}')
 def main_menu():
     print(f'''
     {' Menu Principal '.center(50, '=')}
-    Digite [1] - Para depositar 🤲🏻💵🏦.
-    Digite [2] - Para sacar 🖐🏻💵🏦.
-    Digite [3] - Para ver o extrato bancário📓.
+    Digite [1] - Para depositar.
+    {'-'.center(50, '-')}
+    Digite [2] - Para sacar.
+    {'-'.center(50, '-')}
+    Digite [3] - Para ver o extrato bancário.
     {' Menu Principal '.center(50, '=')}
     ''')
 
@@ -91,7 +93,7 @@ def deposity_user():
                 Depósito realizado com sucesso! Saldo atualizado: R${value_of_money_in_species:.2f}
                 {' Realizado '.center(50, '=')}
                 ''')
-            print("Extrato atualizado:", extract_deposity)
+            print('Extrato atualizado!')
 
         # Caso seja digitado letras ou caracteres inválidos                
         except ValueError:
@@ -114,11 +116,11 @@ def max_sake():
                                         'Você atingiu o maximo de depósito diários, volte amanhã para fazer mais depósitos'
                                         ]
 
-            account_global = float(account_global) # 
+            account_global = float(account_global) # Valores irá poder ficar com ponto flutuante.
             
-            account_global = sum(extract_deposity) # Soma todos os itens do array extract_deposity e faz com que acconunt_global recea os valores somados.
+            account_global = sum(extract_deposity) # Soma todos os itens do array extract_deposity e faz com que acconunt_global receba os valores somados.
 
-            print(f'Valor atual de dinheiro guardado em sua conta é:{account_global}' )
+            print(f'Valor atual de dinheiro guardado em sua conta é:{account_global}')
             sake_input = float(input('Digite o valor que deseja sacar da sua conta:'))
 
             extract_sakes.append(sake_input)
@@ -170,7 +172,9 @@ def extract_account():
     print(f'''
     {' Extrato '.center(50, '=')}
     Digite [1] - Para ver o histórico de depositos.
+    {'-'.center(50, '-')}
     Digite [2] - Para ver o valor retirado da sua conta.
+    {'-'.center(50, '-')}
     Digite [3] - Para voltar para o menu principal.
     {' Extrato '.center(50, '=')}
     ''')
@@ -179,6 +183,7 @@ def extract_account():
 
     if extract_deposity_sake == 1:
         print('test 1')
+        show_extract_deposity()
     elif extract_deposity_sake == 2:
         print('test2')
     elif extract_deposity_sake == 3:
@@ -198,6 +203,35 @@ def extract_account():
             {' Erro '.center(50, '=') }
             ''')
             extract_account()
+
+#>>>>>>>>>>EXTRATO DA CONTA<<<<<<<<<<<
+def show_extract_deposity():
+    total_deosity_of_day = 0
+    print(' Depósitos feitos para sua conta! '.center(60, '='))
+    for index, value in enumerate(extract_deposity):
+        index += 1
+        print(f'''
+        Depósito de número ({index}) foi: R${value:.2f}
+        {'-'.center(50, '-')}
+        ''')
+    total_deosity_of_day = sum(extract_deposity)
+    print(f'''
+          {' Total depósitos '.center(50, '=')}
+          Valor total depositado hoje foi de: {total_deosity_of_day:.2f}
+          {' Total depósitos '.center(50, '=')}
+          ''')
+    
+    back_menu = input('Escerva[OK] para voltar para o menu!').upper()
+    if back_menu == 'OK':
+        extract_account()
+    else:
+        show_extract_deposity()
+        print(f'''
+        {' Erro! '.center(50, '=')}
+        Somente letras!
+        {' Erro! '.center(50, '=')}
+        ''')
+#>>>>>>>>>>EXTRATO DOS VALORES SACADOS<<<<<<<<<<<
 
 #>>>>>>>>>>FUNÇÃO PRINCIPAL QUE ENGLOBA TODAS AS OUTRAS REFERENTE A DEPOSITO<<<<<<<<<<<
 def global_function_deposity():
